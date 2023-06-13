@@ -1,0 +1,25 @@
+#ifndef MAGIC_NUMBERS_H_
+#define MAGIC_NUMBERS_H_
+
+// character stats //
+#define CHARACTER_WIDTH 64
+#define CHARACTER_HEIGHT 64
+#define CHARACTER_SPEED 4
+#define CHARACTER_JUMP_HEIGHT 100
+#define CHARACTER_JUMP_SPEED 10 
+#define CHARACTER_FALL_SPEED 5
+#define RESET_CHARACTER_LOCATION 580
+#define SCREEN_WIDTH 640
+
+#define BEACON_WIDTH 64
+
+#define GROUND_HEIGHT 350
+
+// animation clip count //
+#define CLIP_TOTAL 7
+
+// milliseconds //
+#define TWENTY_MILLISECONDS 20
+#define ONE_HUNDRED_MILLISECONDS 100
+
+#endif
