@@ -1,6 +1,12 @@
 #ifndef MAGIC_NUMBERS_H_
 #define MAGIC_NUMBERS_H_
 
+// screen //
+#define SCREEN_WIDTH 640;
+#define SCREEN_HEIGHT 480;
+
+#define GROUND_HEIGHT 350
+
 // character stats //
 #define CHARACTER_WIDTH 64
 #define CHARACTER_HEIGHT 64
@@ -10,16 +16,26 @@
 #define CHARACTER_FALL_SPEED 5
 #define RESET_CHARACTER_LOCATION 580
 
+// beacon //
 #define BEACON_WIDTH 64
 #define BEACON_HEIGHT 64
 
-#define GROUND_HEIGHT 350
-
-#define SCREEN_WIDTH 640;
-#define SCREEN_HEIGHT 480;
-
 // animation clip count //
 #define CLIP_TOTAL 7
+#define ANIMATION_CLIP_LENGTH 512
+#define LEVEL_ONE_MAP_LENGTH 3200
+
+// right wall //
+#define RIGHT_WALL_X_LOCATION 590
+#define RIGHT_WALL_Y_LOCATION 1
+#define RIGHT_WALL_W_LOCATION 1
+#define RIGHT_WALL_H_LOCATION 480
+
+// left wall //
+#define LEFT_WALL_X_LOCATION 1
+#define LEFT_WALL_Y_LOCATION 1
+#define LEFT_WALL_W_LOCATION 1
+#define LEFT_WALL_H_LOCATION 480
 
 // milliseconds //
 #define TWENTY_MILLISECONDS 20

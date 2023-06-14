@@ -6,15 +6,21 @@
 #include "includes/rect_vessel.h"
 #include "methods/object.h"
 
-
+// Notes //
 /* SDL_Renderer is what puts images on your screen using your gpu.
- * The renderer uses an SDL_Texture and as input.
- * SDL_Texture needs an SDL_Surface to be created.  All SDL_Surface's are 
- * stored, created and destroyed in Object's api (check methods/object.h).  
- * Surfaces are structured as arrays of enums (check 'includes/surface_arrays.h').
+ * First you attach an image to an SDL_Surface, then you use the 
+ * SDL_Surface to make an SDL_Texture;  Now the renderer can use 
+ * your texture to put an image on the screen using SDL_RenderCopy()
+ * then SDL_RenderPresent().
+ *
+ * All SDL_Surface's are stored, created and destroyed in 'Object's api (check methods/object.h).  
+ * Surfaces are stored as arrays of enums (check 'includes/surface_arrays.h').
+ * Creating my Object using calloc allows me to zero out all of the variables.
+ * Which means all SDL_Rect's will spawn in the upper left corner of the screen,
+ * with a width and height of 0 so they are out of the way until you need them.
  * 
- * SDL_Textures are allocated and destroyed inside of main instead 
- * of Object because SDL does weird things in the background*/
+ * SDL_Textures are created and destroyed inside of main because I think it
+ * makes life easier. */
 
 int main() 
 {
@@ -60,7 +66,7 @@ int main()
 	// main menu logic loop //
 	int x_mouse = 0;
 	int y_mouse = 0;
-	SDL_Event event;
+	SDL_Event event; // event is reused for the game loop 
 
 	while (1)
 	{
@@ -99,10 +105,8 @@ end_mainmenu_loop:
 	free(mainmenu);
 
 
-	// implement level one and get EVERYTHING working, then make a level choosing screen
-	// calloc where_next enum
-
 	/*
+	 * calloc where_next enum 
 	Object* level = (Object*)calloc(1, sizeof(Object));
 
 	if (where_next[LEVEL_ONE])
@@ -127,10 +131,15 @@ end_mainmenu_loop:
 
 	modifyRectValues(level);
 
+	// background textures //
+	SDL_Texture* background_texture = SDL_CreateTextureFromSurface(level->renderer, level->surface_arrays.BackgroundSurfaces[S_BACKGROUND]); 
+	SDL_RenderCopy(level->renderer, background_texture, NULL, &level->rect_vessel.backgroundRect);
+	SDL_RenderPresent(level->renderer);
 
-
-
-	
+	// beacon textures //
+	SDL_Texture* beacon_texture = SDL_CreateTextureFromSurface(level->renderer, level->surface_arrays.BeaconSurfaces[S_SPAWN_NEXT_SCENE_BEACON]);
+	SDL_RenderCopy(level->renderer, beacon_texture, NULL, &level->rect_vessel.spawn_next_scene_beacon_Rect);
+	SDL_RenderPresent(level->renderer);
 
 	// character textures //
 	SDL_Texture* character_idle_right = SDL_CreateTextureFromSurface(level->renderer, 
@@ -146,18 +155,7 @@ end_mainmenu_loop:
 	SDL_Texture* character_jumping_left = SDL_CreateTextureFromSurface(level->renderer, 
 			level->surface_arrays.CharacterSurfaces[S_CHARACTER_JUMPING_LEFT]);
 
-	// background textures //
-	SDL_Texture* background_texture = SDL_CreateTextureFromSurface(level->renderer, level->surface_arrays.BackgroundSurfaces[S_BACKGROUND]); 
-	SDL_RenderCopy(level->renderer, background_texture, NULL, &level->rect_vessel.backgroundRect);
-	SDL_RenderPresent(level->renderer);
 
-	// beacon textures //
-	SDL_Texture* beacon_texture = SDL_CreateTextureFromSurface(level->renderer, level->surface_arrays.BeaconSurfaces[S_SPAWN_NEXT_SCENE_BEACON]);
-	SDL_RenderCopy(level->renderer, beacon_texture, NULL, &level->rect_vessel.spawn_next_scene_beacon_Rect);
-	SDL_RenderPresent(level->renderer);
-
-
-	//SDL_Event event;
 	int clip_counter = 0;
 	SDL_Texture* current_image = NULL;
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -249,7 +247,8 @@ end_mainmenu_loop:
 					(current_image = character_walking_left);
 				character_idle_direction = character_idle_left;
 
-				if (level->rect_vessel.clipRect.x > level->rect_vessel.leftwallRect.x && level->rect_vessel.clipRect.y <= current_platform_height)
+				if (level->rect_vessel.clipRect.x > level->rect_vessel.leftwallRect.x && 
+						level->rect_vessel.clipRect.y <= current_platform_height)
 				{
 					level->rect_vessel.characterRect.x -= CHARACTER_SPEED; 
 					level->rect_vessel.clipRect.x -= CHARACTER_SPEED; 
@@ -291,9 +290,7 @@ end_mainmenu_loop:
 				SDL_RenderPresent(level->renderer);	
 
 
-				// object detection //
-				//initPlatforms->next_screen;
-				//an array of SDL_Rect*'s is passed instead of each rect one by one
+				// modifyRectValues(level, &scene_counter);
 				
 				level->rect_vessel.box_one_Rect.x = 225;
 				level->rect_vessel.box_one_Rect.y = 300;
@@ -315,22 +312,14 @@ end_mainmenu_loop:
 				level->rect_vessel.box_four_Rect.w = 125;
 				level->rect_vessel.box_four_Rect.h = 40;
 
+				// beacon new x and y locations
 
 				// characters new x and y locations
-
-
-				/*
-				spawn_next_scene_beacon_Rect.x = 1;
-				spawn_next_scene_beacon_Rect.y = 1;
-
-				beacon_clipRect.x = 1;
-				beacon_clipRect.y = 1;
-				*/
 
 			}
 
 			
-			render_game:
+render_game:
 			if ((SDL_GetTicks() - animation_timer) > ONE_HUNDRED_MILLISECONDS)
 			{
 				clip_counter++;

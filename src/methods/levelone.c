@@ -19,41 +19,41 @@ static const void Constructor_v(struct Object* Object, SDL_Window* Window)
 
 	/* Because Object is calloc'd into existence, all SDL_Rect's 
 	 * will default to the top left corner of the screen.  */
-	Object->rect_vessel.backgroundRect.w = 3200;
-	Object->rect_vessel.backgroundRect.h = 480;
+	Object->rect_vessel.backgroundRect.w = LEVEL_ONE_MAP_LENGTH;
+	Object->rect_vessel.backgroundRect.h = SCREEN_HEIGHT;
 
 	// character rect //
-	Object->rect_vessel.characterRect.x = 150;
+	Object->rect_vessel.characterRect.x = 50;
 	Object->rect_vessel.characterRect.y = 350; 
-	Object->rect_vessel.characterRect.w = CHARACTER_WIDTH;  
+	Object->rect_vessel.characterRect.w = ANIMATION_CLIP_LENGTH;  
 	Object->rect_vessel.characterRect.h = CHARACTER_HEIGHT; 
 
 	// clip rect //
-	Object->rect_vessel.clipRect.x = 150;
+	Object->rect_vessel.clipRect.x = 50;
 	Object->rect_vessel.clipRect.y = 350; 
 	Object->rect_vessel.clipRect.w = CHARACTER_WIDTH; 
 	Object->rect_vessel.clipRect.h = CHARACTER_HEIGHT; 
 
 	// left wall rect //
-	Object->rect_vessel.leftwallRect.x = 1;
-	Object->rect_vessel.leftwallRect.y = 1;
-	Object->rect_vessel.leftwallRect.w = 1;
-	Object->rect_vessel.leftwallRect.h = SCREEN_HEIGHT;
+	Object->rect_vessel.leftwallRect.x = LEFT_WALL_X_LOCATION;
+	Object->rect_vessel.leftwallRect.y = LEFT_WALL_Y_LOCATION;
+	Object->rect_vessel.leftwallRect.w = LEFT_WALL_W_LOCATION;
+	Object->rect_vessel.leftwallRect.h = LEFT_WALL_H_LOCATION;
 
 	// right wall rect //
-	Object->rect_vessel.rightwallRect.x = 490;
-	Object->rect_vessel.rightwallRect.y = 1;
-	Object->rect_vessel.rightwallRect.w = SCREEN_WIDTH;
-	Object->rect_vessel.rightwallRect.h = SCREEN_HEIGHT; 
+	Object->rect_vessel.rightwallRect.x = RIGHT_WALL_X_LOCATION;
+	Object->rect_vessel.rightwallRect.y = RIGHT_WALL_Y_LOCATION;;
+	Object->rect_vessel.rightwallRect.w = RIGHT_WALL_W_LOCATION;
+	Object->rect_vessel.rightwallRect.h = RIGHT_WALL_H_LOCATION; 
 
 	// spawn nect scene beacon rect //
-	Object->rect_vessel.spawn_next_scene_beacon_Rect.x = 400;
+	Object->rect_vessel.spawn_next_scene_beacon_Rect.x = 500;
 	Object->rect_vessel.spawn_next_scene_beacon_Rect.y = 350;
-	Object->rect_vessel.spawn_next_scene_beacon_Rect.w = BEACON_WIDTH;
-	Object->rect_vessel.spawn_next_scene_beacon_Rect.h = BEACON_HEIGHT;
+	Object->rect_vessel.spawn_next_scene_beacon_Rect.w = ANIMATION_CLIP_LENGTH;
+	Object->rect_vessel.spawn_next_scene_beacon_Rect.h = CHARACTER_HEIGHT;
 
 	// beacon clip rect //
-	Object->rect_vessel.beacon_clipRect.x = 400;
+	Object->rect_vessel.beacon_clipRect.x = 500;
 	Object->rect_vessel.beacon_clipRect.y = 350;
 	Object->rect_vessel.beacon_clipRect.w = BEACON_WIDTH;
 	Object->rect_vessel.beacon_clipRect.h = BEACON_HEIGHT;
