@@ -8,8 +8,8 @@
 typedef struct Object 
 {
 	const struct Object_vtable_* vtable_;
-	RectVessel rect_vessel;
 	SurfaceArrays surface_arrays;
+	RectVessel rect_vessel;
 	SDL_Renderer* renderer;
 	SDL_Window* window;
 } Object;
@@ -71,6 +71,6 @@ static inline const void modifyRectValues(struct Object* Object)
 
 // vtables declared here //
 extern const struct Object_vtable_ MainMenuVTable[];
-extern const struct Object_vtable_ LevelOne[];
+extern const struct Object_vtable_ LevelOneVTable[];
 
 #endif

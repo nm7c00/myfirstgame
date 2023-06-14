@@ -9,11 +9,14 @@
 #define CHARACTER_JUMP_SPEED 10 
 #define CHARACTER_FALL_SPEED 5
 #define RESET_CHARACTER_LOCATION 580
-#define SCREEN_WIDTH 640
 
 #define BEACON_WIDTH 64
+#define BEACON_HEIGHT 64
 
 #define GROUND_HEIGHT 350
+
+#define SCREEN_WIDTH 640;
+#define SCREEN_HEIGHT 480;
 
 // animation clip count //
 #define CLIP_TOTAL 7
