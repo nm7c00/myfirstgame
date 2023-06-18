@@ -13,6 +13,8 @@
 #define CHARACTER_JUMP_SPEED 10 
 #define CHARACTER_FALL_SPEED 5
 
+#define CHARACTER_DEATH_FALL 600
+
 // beacon //
 #define BEACON_WIDTH 64
 #define BEACON_HEIGHT 64

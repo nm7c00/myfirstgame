@@ -92,6 +92,7 @@ static const void loadBackgroundSurfaces_v(struct Object* Object)
 			"./assets/levelone/BackgroundSurfaces/BACKGROUND.bmp");
 	if (Object->surface_arrays.BackgroundSurfaces[S_BACKGROUND] == NULL)
 		ErrorOut(__FILE__, __LINE__, __FUNCTION__, SDL_GetError());
+	// youDied background
 }
 
 static const void loadBeaconSurfaces_v(struct Object* Object) 
@@ -104,6 +105,9 @@ static const void loadBeaconSurfaces_v(struct Object* Object)
 
 static const void loadButtonSurfaces_v(struct Object* Object) 
 {
+	// youDied buttons
+	//		retart button
+	//		quit button
 	return;
 }
 
@@ -317,7 +321,16 @@ static const void modifyRectValues_v(struct Object* Object, int* scene_counter, 
 		Object->rect_vessel.beacon_clipRect.x = 570; 
 		Object->rect_vessel.beacon_clipRect.y = 315; 
 	}
+
+	if ((*scene_counter) == 5)
+		Object->quit_flag++;
 }
+
+static void youDied_v(struct Object* Object)
+{
+	return;
+}
+
 const struct Object_vtable_ LevelOneVTable[] = { { 
 		Constructor_v, 
 		Destructor_v, 
@@ -326,4 +339,5 @@ const struct Object_vtable_ LevelOneVTable[] = { {
 		loadButtonSurfaces_v, 
 		loadCharacterSurfaces_v, 
 		loadEnemySurfaces_v, 
-		modifyRectValues_v } };
+		modifyRectValues_v,
+		youDied_v	} };

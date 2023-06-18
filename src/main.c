@@ -64,20 +64,21 @@ int main()
 	int x_mouse = 0;
 	int y_mouse = 0;
 	SDL_Event event; // event is reused for the game loop 
-	int quit_flag = 0;
+	int quit_flag = 0; 
 	while (1)
 	{
 		while (SDL_PollEvent(&event) != 0)
 		{
 			if (event.type == SDL_QUIT)
 			{
-				quit_flag = 1;
+				quit_flag++;
 				goto end_mainmenu_loop;
 			}
 
 			SDL_GetGlobalMouseState(&x_mouse, &y_mouse);
 
-			if (x_mouse > 200 && x_mouse < 452 && y_mouse > 243 && y_mouse < 340) 
+			if (x_mouse > PLAY_BUTTON_X && x_mouse < (PLAY_BUTTON_X + PLAY_BUTTON_W) && 
+					y_mouse > PLAY_BUTTON_Y && y_mouse < (PLAY_BUTTON_Y + PLAY_BUTTON_H)) 
 			{
 				SDL_RenderCopy(mainmenu->renderer, button_hover, NULL, &mainmenu->rect_vessel.playbuttonRect);
 				SDL_RenderPresent(mainmenu->renderer); 	
@@ -85,7 +86,6 @@ int main()
 				{
 					SDL_RenderCopy(mainmenu->renderer, button_click, NULL, &mainmenu->rect_vessel.playbuttonRect);
 					SDL_RenderPresent(mainmenu->renderer);	
-					// where_next[foo] = 1;
 					goto end_mainmenu_loop; 
 				}
 			} else {
@@ -173,12 +173,12 @@ end_mainmenu_loop:
 
 		if (event.type == SDL_QUIT)
 		{
-			goto end_game_loop;
+			goto destroy_and_quit;
 		}
 
 		if ((SDL_GetTicks() - refresh_timer) > TWENTY_MILLISECONDS)
 		{
-			// set the correct texture //
+			// set the correct character texture //
 			if (!jump_flag) 
 				current_image = character_idle_direction;
 
@@ -186,7 +186,10 @@ end_mainmenu_loop:
 			if (!jump_flag && level->rect_vessel.characterRect.y < current_platform_height)
 				jump_flag = 2;
 
-			// if clipRect.y >= #define DEATH_FALL_HEIGHT 400 character died
+			// fall to your death? //
+			if (level->rect_vessel.clipRect.y > CHARACTER_DEATH_FALL)
+				goto destroy_and_quit; // youDied_v() 
+
 
 			// collision detection //
 			if (level->rect_vessel.clipRect.x > level->rect_vessel.box_one_Rect.x && level->rect_vessel.clipRect.x 
@@ -211,8 +214,6 @@ end_mainmenu_loop:
 				current_platform_height = level->rect_vessel.box_four_Rect.y;
 
 
-
-
 			// collision response //
 			if (character_idle_direction == character_idle_right && level->rect_vessel.clipRect.y > current_platform_height)
 			{
@@ -224,7 +225,6 @@ end_mainmenu_loop:
 				level->rect_vessel.characterRect.x += CHARACTER_SPEED; 
 				level->rect_vessel.clipRect.x += CHARACTER_SPEED; 
 			}
-
 
 
 			// move right //
@@ -282,19 +282,22 @@ end_mainmenu_loop:
 				   jump_flag++;	
 			}
 
-
+			// spawn next scene? //
 			if (SDL_HasIntersection(&level->rect_vessel.clipRect, &level->rect_vessel.beacon_clipRect))
 			{
 				scene_counter++;
-
+				/* when you hit the last scene in modifyRectValues(),
+				 * level->quit_flag iterates from 0 (false) to 1 (true) */
 				modifyRectValues(level, &scene_counter, &ground_height);
 				
 				SDL_RenderClear(level->renderer);
 				SDL_RenderSetClipRect(level->renderer, &level->rect_vessel.backgroundRect);
 				SDL_RenderCopy(level->renderer, background_texture, NULL, &level->rect_vessel.backgroundRect);
 				SDL_RenderPresent(level->renderer);	
-			}
 
+				if (level->quit_flag)
+					goto destroy_and_quit; 
+			}
 			
 render_game:
 			if ((SDL_GetTicks() - animation_timer) > ONE_HUNDRED_MILLISECONDS)
@@ -326,7 +329,7 @@ render_game:
 
 
 
-end_game_loop:
+destroy_and_quit:
 	SDL_DestroyTexture(character_idle_left);
 	SDL_DestroyTexture(character_idle_right);
 	SDL_DestroyTexture(character_walking_left);
@@ -341,7 +344,6 @@ end_game_loop:
 
 
 end_program:
-	// destroy //
 	SDL_DestroyWindow(window);
 	window = NULL;
 

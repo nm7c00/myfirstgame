@@ -12,6 +12,7 @@ typedef struct Object
 	RectVessel rect_vessel;
 	SDL_Renderer* renderer;
 	SDL_Window* window;
+	int quit_flag;
 } Object;
 
 struct Object_vtable_ 
@@ -24,6 +25,7 @@ struct Object_vtable_
 	const void (*loadCharacterSurfaces_v)(struct Object* Object);
 	const void (*loadEnemySurfaces_v)(struct Object* Object);
 	const void (*modifyRectValues_v)(struct Object* Object, int* scene_counter, int* ground_height);
+	const void (*youDied_v)(struct Object* Object);
 };
 
 
@@ -68,6 +70,10 @@ static inline const void modifyRectValues(struct Object* Object, int* scene_coun
 	return Object->vtable_->modifyRectValues_v(Object, scene_counter, ground_height);
 }
 
+static inline const void youDied(struct Object* Object)
+{
+	return Object->vtable_->loadEnemySurfaces_v(Object);
+}
 
 // vtables declared here //
 extern const struct Object_vtable_ MainMenuVTable[];

@@ -92,6 +92,11 @@ static const void modifyRectValues_v(struct Object* Object, int* scene_counter, 
 	return;
 }
 
+static const void youDied_v(struct Object* Object) 
+{
+	return;
+}
+
 const struct Object_vtable_ MainMenuVTable[] = { { 
 		Constructor_v, 
 		Destructor_v, 
@@ -100,4 +105,5 @@ const struct Object_vtable_ MainMenuVTable[] = { {
 		loadButtonSurfaces_v, 
 		loadCharacterSurfaces_v, 
 		loadEnemySurfaces_v, 
-		modifyRectValues_v } };
+		modifyRectValues_v,
+		youDied_v	} };
