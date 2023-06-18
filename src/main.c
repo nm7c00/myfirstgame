@@ -45,9 +45,6 @@ int main()
 
 	loadButtonSurfaces(mainmenu);
 
-	modifyRectValues(mainmenu);
-
-
 	SDL_Texture* mainmenu_texture = SDL_CreateTextureFromSurface(mainmenu->renderer, mainmenu->surface_arrays.BackgroundSurfaces[S_BACKGROUND]); 
 	SDL_RenderCopy(mainmenu->renderer, mainmenu_texture, NULL, &mainmenu->rect_vessel.backgroundRect);
 	SDL_RenderPresent(mainmenu->renderer);
@@ -67,13 +64,16 @@ int main()
 	int x_mouse = 0;
 	int y_mouse = 0;
 	SDL_Event event; // event is reused for the game loop 
-
+	int quit_flag = 0;
 	while (1)
 	{
 		while (SDL_PollEvent(&event) != 0)
 		{
 			if (event.type == SDL_QUIT)
+			{
+				quit_flag = 1;
 				goto end_mainmenu_loop;
+			}
 
 			SDL_GetGlobalMouseState(&x_mouse, &y_mouse);
 
@@ -104,6 +104,8 @@ end_mainmenu_loop:
 	Destructor(mainmenu);	
 	free(mainmenu);
 
+	if (quit_flag)
+		goto end_program;
 
 	/*
 	 * calloc where_next enum 
@@ -116,7 +118,7 @@ end_mainmenu_loop:
 
 	*/
 
-	
+	// init game //	
 	Object* level = (Object*)calloc(1, sizeof(Object));
 
 	level->vtable_ = LevelOneVTable;
@@ -125,11 +127,9 @@ end_mainmenu_loop:
 
 	loadBackgroundSurfaces(level);
 
-	loadCharacterSurfaces(level);
-
 	loadBeaconSurfaces(level);
 
-	modifyRectValues(level);
+	loadCharacterSurfaces(level);
 
 	// background textures //
 	SDL_Texture* background_texture = SDL_CreateTextureFromSurface(level->renderer, level->surface_arrays.BackgroundSurfaces[S_BACKGROUND]); 
@@ -155,7 +155,8 @@ end_mainmenu_loop:
 	SDL_Texture* character_jumping_left = SDL_CreateTextureFromSurface(level->renderer, 
 			level->surface_arrays.CharacterSurfaces[S_CHARACTER_JUMPING_LEFT]);
 
-
+	// game loop //
+	int scene_counter = 0;
 	int clip_counter = 0;
 	SDL_Texture* current_image = NULL;
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
@@ -163,7 +164,8 @@ end_mainmenu_loop:
 	Uint32 animation_timer = SDL_GetTicks();
 	Uint32 refresh_timer = SDL_GetTicks();
 	SDL_Texture* character_idle_direction = character_idle_right; 
-	int current_platform_height = GROUND_HEIGHT;
+	int ground_height = 350;
+	int current_platform_height = ground_height;
 	int current_jump_height = 0;
 	while(1)
 	{
@@ -184,12 +186,14 @@ end_mainmenu_loop:
 			if (!jump_flag && level->rect_vessel.characterRect.y < current_platform_height)
 				jump_flag = 2;
 
+			// if clipRect.y >= #define DEATH_FALL_HEIGHT 400 character died
+
 			// collision detection //
 			if (level->rect_vessel.clipRect.x > level->rect_vessel.box_one_Rect.x && level->rect_vessel.clipRect.x 
 					< (level->rect_vessel.box_one_Rect.x + level->rect_vessel.box_one_Rect.w))
 				current_platform_height = level->rect_vessel.box_one_Rect.y;
 			else
-				current_platform_height = GROUND_HEIGHT;
+				current_platform_height = ground_height;
 			
 			if (level->rect_vessel.clipRect.x > level->rect_vessel.box_two_Rect.x && level->rect_vessel.clipRect.x 
 					< (level->rect_vessel.box_two_Rect.x + level->rect_vessel.box_two_Rect.w) && 
@@ -281,41 +285,14 @@ end_mainmenu_loop:
 
 			if (SDL_HasIntersection(&level->rect_vessel.clipRect, &level->rect_vessel.beacon_clipRect))
 			{
-				level->rect_vessel.clipRect.x -= RESET_CHARACTER_LOCATION;
-				level->rect_vessel.characterRect.x -= RESET_CHARACTER_LOCATION;
-				level->rect_vessel.backgroundRect.x -= SCREEN_WIDTH;
+				scene_counter++;
+
+				modifyRectValues(level, &scene_counter, &ground_height);
+				
 				SDL_RenderClear(level->renderer);
 				SDL_RenderSetClipRect(level->renderer, &level->rect_vessel.backgroundRect);
 				SDL_RenderCopy(level->renderer, background_texture, NULL, &level->rect_vessel.backgroundRect);
 				SDL_RenderPresent(level->renderer);	
-
-
-				// modifyRectValues(level, &scene_counter);
-				
-				level->rect_vessel.box_one_Rect.x = 225;
-				level->rect_vessel.box_one_Rect.y = 300;
-				level->rect_vessel.box_one_Rect.w = 125;
-				level->rect_vessel.box_one_Rect.h = 25;
-
-				level->rect_vessel.box_two_Rect.x = 360;
-				level->rect_vessel.box_two_Rect.y = 195;
-				level->rect_vessel.box_two_Rect.w = 125;
-				level->rect_vessel.box_two_Rect.h = 25;
-
-				level->rect_vessel.box_three_Rect.x = 175;
-				level->rect_vessel.box_three_Rect.y = 155;
-				level->rect_vessel.box_three_Rect.w = 125;
-				level->rect_vessel.box_three_Rect.h = 25;
-
-				level->rect_vessel.box_four_Rect.x = 65;
-				level->rect_vessel.box_four_Rect.y = 120;
-				level->rect_vessel.box_four_Rect.w = 125;
-				level->rect_vessel.box_four_Rect.h = 40;
-
-				// beacon new x and y locations
-
-				// characters new x and y locations
-
 			}
 
 			
@@ -363,6 +340,7 @@ end_game_loop:
 
 
 
+end_program:
 	// destroy //
 	SDL_DestroyWindow(window);
 	window = NULL;

@@ -15,6 +15,14 @@ static const void Constructor_v(struct Object* Object, SDL_Window* Window)
 	Object->renderer = SDL_CreateRenderer(Object->window, -1, SDL_RENDERER_ACCELERATED);
 	if (Object->renderer == NULL)
 		ErrorOut(__FILE__, __LINE__, __FUNCTION__, SDL_GetError());
+
+	Object->rect_vessel.backgroundRect.w = SCREEN_WIDTH; 
+	Object->rect_vessel.backgroundRect.h = SCREEN_HEIGHT; 
+
+	Object->rect_vessel.playbuttonRect.x = PLAY_BUTTON_X;
+	Object->rect_vessel.playbuttonRect.y = PLAY_BUTTON_Y;
+	Object->rect_vessel.playbuttonRect.w = PLAY_BUTTON_W;
+	Object->rect_vessel.playbuttonRect.h = PLAY_BUTTON_H;
 }
 
 static const void Destructor_v(struct Object* Object)
@@ -79,17 +87,9 @@ static const void loadEnemySurfaces_v(struct Object* Object)
 	return;
 }
 
-static const void modifyRectValues_v(struct Object* Object)
+static const void modifyRectValues_v(struct Object* Object, int* scene_counter, int* ground_height)
 {
-	Object->rect_vessel.backgroundRect.x = 0;
-	Object->rect_vessel.backgroundRect.y = 0;
-	Object->rect_vessel.backgroundRect.w = Object->surface_arrays.BackgroundSurfaces[S_BACKGROUND]->w;
-	Object->rect_vessel.backgroundRect.h = Object->surface_arrays.BackgroundSurfaces[S_BACKGROUND]->h;
-
-	Object->rect_vessel.playbuttonRect.x = 200;
-	Object->rect_vessel.playbuttonRect.y = 240;
-	Object->rect_vessel.playbuttonRect.w = Object->surface_arrays.ButtonSurfaces[S_PLAY_BUTTON_UNCLICKED]->w;
-	Object->rect_vessel.playbuttonRect.h = Object->surface_arrays.ButtonSurfaces[S_PLAY_BUTTON_UNCLICKED]->h;
+	return;
 }
 
 const struct Object_vtable_ MainMenuVTable[] = { { 

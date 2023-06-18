@@ -23,7 +23,7 @@ struct Object_vtable_
 	const void (*loadButtonSurfaces_v)(struct Object* Object);
 	const void (*loadCharacterSurfaces_v)(struct Object* Object);
 	const void (*loadEnemySurfaces_v)(struct Object* Object);
-	const void (*modifyRectValues_v)(struct Object* Object);
+	const void (*modifyRectValues_v)(struct Object* Object, int* scene_counter, int* ground_height);
 };
 
 
@@ -63,9 +63,9 @@ static inline const void loadEnemySurfaces(struct Object* Object)
 	return Object->vtable_->loadEnemySurfaces_v(Object);
 }
 
-static inline const void modifyRectValues(struct Object* Object)
+static inline const void modifyRectValues(struct Object* Object, int* scene_counter, int* ground_height)
 {
-	return Object->vtable_->modifyRectValues_v(Object);
+	return Object->vtable_->modifyRectValues_v(Object, scene_counter, ground_height);
 }
 
 
