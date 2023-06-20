@@ -1,18 +1,20 @@
 #ifndef OBJECT_H_
 #define OBJECT_H_
 
-#include "../includes/rect_vessel.h"
 #include "../includes/surface_arrays.h"
+#include "../list/list.h"
 #include <SDL2/SDL.h>
 
 typedef struct Object 
 {
 	const struct Object_vtable_* vtable_;
 	SurfaceArrays surface_arrays;
-	RectVessel rect_vessel;
+	RectNode* rect_node;
 	SDL_Renderer* renderer;
 	SDL_Window* window;
 	int quit_flag;
+	int scene_counter;
+	int total_scene_count;
 } Object;
 
 struct Object_vtable_ 
@@ -24,7 +26,6 @@ struct Object_vtable_
 	const void (*loadButtonSurfaces_v)(struct Object* Object);
 	const void (*loadCharacterSurfaces_v)(struct Object* Object);
 	const void (*loadEnemySurfaces_v)(struct Object* Object);
-	const void (*modifyRectValues_v)(struct Object* Object, int* scene_counter, int* ground_height);
 	const void (*youDied_v)(struct Object* Object);
 };
 
@@ -65,14 +66,9 @@ static inline const void loadEnemySurfaces(struct Object* Object)
 	return Object->vtable_->loadEnemySurfaces_v(Object);
 }
 
-static inline const void modifyRectValues(struct Object* Object, int* scene_counter, int* ground_height)
-{
-	return Object->vtable_->modifyRectValues_v(Object, scene_counter, ground_height);
-}
-
 static inline const void youDied(struct Object* Object)
 {
-	return Object->vtable_->loadEnemySurfaces_v(Object);
+	return Object->vtable_->youDied_v(Object);
 }
 
 // vtables declared here //

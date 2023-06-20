@@ -1,4 +1,4 @@
-OBJS = ./src/main.c ./src/errorout.c ./src/methods/mainmenu.c  ./src/methods/levelone.c  
+OBJS = ./src/main.c ./src/errorout.c ./src/object/mainmenu.c  ./src/object/levelone.c ./src/list/level_one_list.c ./src/list/main_menu_list.c ./src/list/destroy_list.c
 
 OBJ_NAME = ./bin/exec
 

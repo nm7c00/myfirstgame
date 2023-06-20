@@ -1,9 +1,17 @@
-#ifndef RECT_VESSEL_H_
-#define RECT_VESSEL_H_
+#ifndef LIST_H_
+#define LIST_H_
+
+/* lists are statically created to set the values 
+ * of the SDL_Rect values for each scene.  Each
+ * list init() returns a pointer to the first node */
 
 #include <SDL2/SDL.h>
 
-typedef struct RectVessel {
+typedef struct RectNode {
+	struct RectNode* next;
+
+	int ground_height;	
+
 	// background //
 	SDL_Rect backgroundRect;
 
@@ -27,6 +35,12 @@ typedef struct RectVessel {
 	// beacon //
 	SDL_Rect spawn_next_scene_beacon_Rect;
 	SDL_Rect beacon_clipRect; 
-} RectVessel;
+} RectNode;
+
+RectNode* init_level_one_list();
+
+RectNode* init_main_menu_list();
+
+void destroyList(RectNode* node);
 
 #endif

@@ -8,7 +8,7 @@
 // character stats //
 #define CHARACTER_WIDTH 64
 #define CHARACTER_HEIGHT 64
-#define CHARACTER_SPEED 4
+#define CHARACTER_SPEED 6
 #define CHARACTER_JUMP_HEIGHT 100
 #define CHARACTER_JUMP_SPEED 10 
 #define CHARACTER_FALL_SPEED 5
@@ -25,7 +25,7 @@
 #define LEVEL_ONE_MAP_WIDTH 3200
 
 // right wall //
-#define RIGHT_WALL_X 590
+#define RIGHT_WALL_X 580 
 #define RIGHT_WALL_Y 1
 #define RIGHT_WALL_W 1
 #define RIGHT_WALL_H 480
@@ -37,13 +37,13 @@
 #define LEFT_WALL_H 480
 
 // play button //
-#define PLAY_BUTTON_X 200
-#define PLAY_BUTTON_Y 240 
+#define PLAY_BUTTON_X 40
+#define PLAY_BUTTON_Y 350 
 #define PLAY_BUTTON_W 250
 #define PLAY_BUTTON_H 100 
 
 // milliseconds //
-#define TWENTY_MILLISECONDS 20
-#define ONE_HUNDRED_MILLISECONDS 100
+#define TWENTY_FIVE_TICKS 25 
+#define ONE_HUNDRED_FIFTY_TICKS 150
 
 #endif

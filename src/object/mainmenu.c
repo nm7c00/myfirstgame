@@ -2,8 +2,8 @@
 #include "object.h"
 #include "../includes/magic_numbers.h"
 #include "../includes/errorout.h"
-#include "../includes/rect_vessel.h"
 #include "../includes/surface_arrays.h"
+#include "../list/list.h"
 
 static const void Constructor_v(struct Object* Object, SDL_Window* Window)
 {
@@ -16,17 +16,16 @@ static const void Constructor_v(struct Object* Object, SDL_Window* Window)
 	if (Object->renderer == NULL)
 		ErrorOut(__FILE__, __LINE__, __FUNCTION__, SDL_GetError());
 
-	Object->rect_vessel.backgroundRect.w = SCREEN_WIDTH; 
-	Object->rect_vessel.backgroundRect.h = SCREEN_HEIGHT; 
-
-	Object->rect_vessel.playbuttonRect.x = PLAY_BUTTON_X;
-	Object->rect_vessel.playbuttonRect.y = PLAY_BUTTON_Y;
-	Object->rect_vessel.playbuttonRect.w = PLAY_BUTTON_W;
-	Object->rect_vessel.playbuttonRect.h = PLAY_BUTTON_H;
+	Object->rect_node = init_main_menu_list();
 }
 
 static const void Destructor_v(struct Object* Object)
 {
+	//destroyList(Object->rect_node);
+
+	// free renderer //
+	SDL_DestroyRenderer(Object->renderer);
+	Object->renderer = NULL;
 
 	// free surfaces // 
 	for (int i = 0; i < SURFACE_BACKGROUND_TOTAL; i++) 
@@ -40,10 +39,6 @@ static const void Destructor_v(struct Object* Object)
 		SDL_FreeSurface(Object->surface_arrays.ButtonSurfaces[i]);
 		Object->surface_arrays.ButtonSurfaces[i] = NULL;
 	}
-
-	// free renderer //
-	SDL_DestroyRenderer(Object->renderer);
-	Object->renderer = NULL;
 }
 
 static const void loadBackgroundSurfaces_v(struct Object* Object) 
@@ -87,11 +82,6 @@ static const void loadEnemySurfaces_v(struct Object* Object)
 	return;
 }
 
-static const void modifyRectValues_v(struct Object* Object, int* scene_counter, int* ground_height)
-{
-	return;
-}
-
 static const void youDied_v(struct Object* Object) 
 {
 	return;
@@ -105,5 +95,4 @@ const struct Object_vtable_ MainMenuVTable[] = { {
 		loadButtonSurfaces_v, 
 		loadCharacterSurfaces_v, 
 		loadEnemySurfaces_v, 
-		modifyRectValues_v,
 		youDied_v	} };
