@@ -1,0 +1,12 @@
+This is a 2d game written in c that only depends on SDL2.
+
+#notes
+SDL stands for simple direct media player.  It is a low level graphics library.
+This is mainly just a test program to get an idea of what goes
+into making a game from scratch.  This was developed and ran in a fedora
+virtual box with 2048 MB of ram.
+
+#installation
+https://wiki.libsdl.org/SDL2/Installation <- SDL install instructions.
+Once you have SDL2 installed you 'make' and './bin/exec'.
+You need cmake and gcc installed on linux to compile and run.

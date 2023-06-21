@@ -25,8 +25,6 @@ struct Object_vtable_
 	const void (*loadBeaconSurfaces_v)(struct Object* Object);
 	const void (*loadButtonSurfaces_v)(struct Object* Object);
 	const void (*loadCharacterSurfaces_v)(struct Object* Object);
-	const void (*loadEnemySurfaces_v)(struct Object* Object);
-	const void (*youDied_v)(struct Object* Object);
 };
 
 
@@ -59,16 +57,6 @@ static inline const void loadButtonSurfaces(struct Object* Object)
 static inline const void loadCharacterSurfaces(struct Object* Object)
 {
 	return Object->vtable_->loadCharacterSurfaces_v(Object);
-}
-
-static inline const void loadEnemySurfaces(struct Object* Object)
-{
-	return Object->vtable_->loadEnemySurfaces_v(Object);
-}
-
-static inline const void youDied(struct Object* Object)
-{
-	return Object->vtable_->youDied_v(Object);
 }
 
 // vtables declared here //

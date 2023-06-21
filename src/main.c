@@ -107,16 +107,6 @@ end_mainmenu_loop:
 	if (quit_flag)
 		goto end_program;
 
-	/*
-	 * calloc where_next enum 
-	Object* level = (Object*)calloc(1, sizeof(Object));
-
-	if (where_next[LEVEL_ONE])
-		level->vtable_ = LevelOneVTable;	
-	else if (where_next[LEVEL_TWO])
-		level->vtable_ = LevelTwoVTable;
-
-	*/
 
 	// init game loop //	
 	Object* level = (Object*)calloc(1, sizeof(Object));
@@ -193,7 +183,7 @@ end_mainmenu_loop:
 				goto destroy_and_quit; // youDied_v() 
 
 
-			// collision detection //
+			// collision detection for each of the SDL_Rect box's //
 			if (level->rect_node->clipRect.x > level->rect_node->box_one_Rect.x && level->rect_node->clipRect.x 
 					< (level->rect_node->box_one_Rect.x + level->rect_node->box_one_Rect.w))
 				current_platform_height = level->rect_node->box_one_Rect.y;

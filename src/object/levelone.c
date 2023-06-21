@@ -54,7 +54,6 @@ static const void loadBackgroundSurfaces_v(struct Object* Object)
 			"./assets/levelone/BackgroundSurfaces/BACKGROUND.bmp");
 	if (Object->surface_arrays.BackgroundSurfaces[S_BACKGROUND] == NULL)
 		ErrorOut(__FILE__, __LINE__, __FUNCTION__, SDL_GetError());
-	// youDied background
 }
 
 static const void loadBeaconSurfaces_v(struct Object* Object) 
@@ -67,9 +66,6 @@ static const void loadBeaconSurfaces_v(struct Object* Object)
 
 static const void loadButtonSurfaces_v(struct Object* Object) 
 {
-	// youDied buttons
-	//		retart button
-	//		quit button
 	return;
 }
 
@@ -103,53 +99,10 @@ static const void loadCharacterSurfaces_v(struct Object* Object)
 		ErrorOut(__FILE__, __LINE__, __FUNCTION__, SDL_GetError());
 }
 
-static const void loadEnemySurfaces_v(struct Object* Object) 
-{
-	return;
-}
-
-static void youDied_v(struct Object* Object)
-{
-	/*
-	SDL_Event event;
-	while (1)
-	{
-		while (SDL_PollEvent(&event) != 0)
-		{
-			if (event.type == SDL_QUIT)
-			{
-				quit_flag++;
-				goto end_mainmenu_loop;
-			}
-
-			SDL_GetGlobalMouseState(&x_mouse, &y_mouse);
-
-			if (x_mouse > PLAY_BUTTON_X && x_mouse < (PLAY_BUTTON_X + PLAY_BUTTON_W) && 
-					y_mouse > PLAY_BUTTON_Y && y_mouse < (PLAY_BUTTON_Y + PLAY_BUTTON_H)) 
-			{
-				SDL_RenderCopy(mainmenu->renderer, button_hover, NULL, &mainmenu->rect_vessel.playbuttonRect);
-				SDL_RenderPresent(mainmenu->renderer); 	
-				if (event.type == SDL_MOUSEBUTTONDOWN)
-				{
-					SDL_RenderCopy(mainmenu->renderer, button_click, NULL, &mainmenu->rect_vessel.playbuttonRect);
-					SDL_RenderPresent(mainmenu->renderer);	
-					goto end_mainmenu_loop; 
-				}
-			} else {
-				SDL_RenderCopy(mainmenu->renderer, button_unclicked, NULL, &mainmenu->rect_vessel.playbuttonRect);
-				SDL_RenderPresent(mainmenu->renderer);	
-			}
-		}
-	}
-	*/
-}
-
 const struct Object_vtable_ LevelOneVTable[] = { { 
 		Constructor_v, 
 		Destructor_v, 
 		loadBackgroundSurfaces_v, 
 		loadBeaconSurfaces_v, 
 		loadButtonSurfaces_v, 
-		loadCharacterSurfaces_v, 
-		loadEnemySurfaces_v, 
-		youDied_v	} };
+		loadCharacterSurfaces_v } };

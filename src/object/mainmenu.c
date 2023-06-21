@@ -77,22 +77,10 @@ static const void loadCharacterSurfaces_v(struct Object* Object)
 	return;
 }
 
-static const void loadEnemySurfaces_v(struct Object* Object) 
-{
-	return;
-}
-
-static const void youDied_v(struct Object* Object) 
-{
-	return;
-}
-
 const struct Object_vtable_ MainMenuVTable[] = { { 
 		Constructor_v, 
 		Destructor_v, 
 		loadBackgroundSurfaces_v, 
 		loadBeaconSurfaces_v, 
 		loadButtonSurfaces_v, 
-		loadCharacterSurfaces_v, 
-		loadEnemySurfaces_v, 
-		youDied_v	} };
+		loadCharacterSurfaces_v } };
